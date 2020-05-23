@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itstyle.quartz.dao.GoodsAttrDao">
+
+    <resultMap type="com.itstyle.quartz.entity.GoodsAttr" id="GoodsAttrMap">
+        <result property="typeCode" column="type_code" jdbcType="VARCHAR"/>
+        <result property="typeName" column="type_name" jdbcType="VARCHAR"/>
+        <result property="attr" column="attr" jdbcType="VARCHAR"/>
+        <result property="attrName" column="attr_name" jdbcType="VARCHAR"/>
+        <result property="formType" column="form_type" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GoodsAttrMap">
+        select
+          type_code, type_name, attr, attr_name, form_type
+        from dshua.goods_attr
+        where  type_code= #{type_code}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GoodsAttrMap">
+        select
+          type_code, type_name, attr, attr_name, form_type
+        from dshua.goods_attr
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GoodsAttrMap">
+        select
+          type_code, type_name, attr, attr_name, form_type
+        from dshua.goods_attr
+        <where>
+            <if test="typeCode != null and typeCode != ''">
+                and type_code = #{typeCode}
+            </if>
+            <if test="typeName != null and typeName != ''">
+                and type_name = #{typeName}
+            </if>
+            <if test="attr != null and attr != ''">
+                and attr = #{attr}
+            </if>
+            <if test="attrName != null and attrName != ''">
+                and attr_name = #{attrName}
+            </if>
+            <if test="formType != null and formType != ''">
+                and form_type = #{formType}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into dshua.goods_attr(type_code, type_name, attr, attr_name, form_type)
+        values (#{typeCode}, #{typeName}, #{attr}, #{attrName}, #{formType})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dshua.goods_attr
+        <set>
+            <if test="typeCode != null and typeCode != ''">
+                type_code = #{typeCode},
+            </if>
+            <if test="typeName != null and typeName != ''">
+                type_name = #{typeName},
+            </if>
+            <if test="attr != null and attr != ''">
+                attr = #{attr},
+            </if>
+            <if test="attrName != null and attrName != ''">
+                attr_name = #{attrName},
+            </if>
+            <if test="formType != null and formType != ''">
+                form_type = #{formType},
+            </if>
+        </set>
+        where  type_code= #{typeCode}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from dshua.goods_attr where  type_code = #{type_code}
+    </delete>
+
+    <select id="findGoodsAttrList" resultMap="GoodsAttrMap" >
+        select * from  dshua.goods_attr da ,dshua.ds_goods dg
+        <where>
+                da.type_code=dg.type
+                and dg.id = #{goodId}
+        </where>
+    </select>
+</mapper>

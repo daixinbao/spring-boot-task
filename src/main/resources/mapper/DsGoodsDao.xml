@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itstyle.quartz.dao.DsGoodsDao">
+
+    <resultMap type="com.itstyle.quartz.entity.DsGoods" id="DsGoodsMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="categoryId" column="category_id" jdbcType="VARCHAR"/>
+        <result property="valid" column="valid" jdbcType="VARCHAR"/>
+        <result property="unit" column="unit" jdbcType="VARCHAR"/>
+        <result property="unitPrice" column="unit_price" jdbcType="NUMERIC"/>
+        <result property="unitCount" column="unit_count" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="desction" column="desction" jdbcType="OTHER"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DsGoodsMap">
+        select
+        id, name, category_id, valid, unit, unit_price, unit_count, create_time, type
+        from dshua.ds_goods
+        where  = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DsGoodsMap">
+        select
+        id, name, category_id, valid, unit, unit_price, unit_count, create_time, type
+        from dshua.ds_goods
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DsGoodsMap">
+        select
+        id,
+        name,
+        category_id,
+        valid,
+        unit,
+        unit_price,
+        unit_count,
+        create_time,
+        type
+        from dshua.ds_goods
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                and category_id = #{categoryId}
+            </if>
+            <if test="valid != null and valid != ''">
+                and valid = #{valid}
+            </if>
+            <if test="unit != null and unit != ''">
+                and unit = #{unit}
+            </if>
+            <if test="unitPrice != null">
+                and unit_price = #{unitPrice}
+            </if>
+            <if test="unitCount != null">
+                and unit_count = #{unitCount}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into dshua.ds_goods(id, name, category_id, valid, unit, unit_price, unit_count, create_time, type)
+        values (#{id}, #{name}, #{categoryId}, #{valid}, #{unit}, #{unitPrice}, #{unitCount}, #{createTime}, #{type})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dshua.ds_goods
+        <set>
+            <if test="id != null and id != ''">
+                id = #{id},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                category_id = #{categoryId},
+            </if>
+            <if test="valid != null and valid != ''">
+                valid = #{valid},
+            </if>
+            <if test="unit != null and unit != ''">
+                unit = #{unit},
+            </if>
+            <if test="unitPrice != null">
+                unit_price = #{unitPrice},
+            </if>
+            <if test="unitCount != null">
+                unit_count = #{unitCount},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+        </set>
+        where  = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from dshua.ds_goods where  = #{id}
+    </delete>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="findValid" resultMap="DsGoodsMap">
+        select
+        id,
+        name,
+        category_id,
+        valid,
+        unit,
+        unit_price,
+        unit_count,
+        create_time,
+        type,
+        desction
+        from dshua.ds_goods
+        <where>
+            and valid = '1'
+        </where>
+    </select>
+
+</mapper>
